@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《葬送的芙莉蓮》WS Vol.1 + Vol.2 賽事頂攻主流牌組 (4 Standby + 4 門 軸)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        frieren: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        gold: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #0b1120;
+            color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        .card-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 24px -10px rgba(59, 130, 246, 0.5);
+        }
+        .card-img-aspect {
+            aspect-ratio: 2.5 / 3.5;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-sky-400 to-amber-400 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-blue-500/20">
+                    SFN
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold bg-gradient-to-r from-blue-400 via-sky-200 to-amber-300 bg-clip-text text-transparent">
+                        葬送的芙莉蓮 Vol.1 + Vol.2
+                    </h1>
+                    <p class="text-xs text-slate-400">Weiss Schwarz 頂級競技牌組 (Standby + 門 軸)</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                    <i class="fa-solid fa-crown mr-1.5 text-amber-400"></i> Meta Tier: Top 1
+                </span>
+                <select id="deck-select" onchange="setDeck(this.value)" class="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold rounded-lg cursor-pointer hover:border-blue-500/50 focus:outline-none max-w-[180px]"></select>
+                <button onclick="openMulliganSim()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs sm:text-sm font-semibold transition shadow-lg shadow-blue-600/20 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-dice"></i>
+                    <span>起手抽牌模擬器</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+
+        <!-- Hero Stats Banner -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Stat Box 1 -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-4">
+                <div class="p-3 bg-blue-500/10 rounded-xl text-blue-400 border border-blue-500/20 text-xl">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">總卡牌數量</p>
+                    <p id="stat-total" class="text-2xl font-black text-white">50 <span class="text-xs text-slate-500 font-normal">張 (標準賽制)</span></p>
+                </div>
+            </div>
+
+            <!-- Stat Box 2 -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-4">
+                <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 border border-amber-500/20 text-xl">
+                    <i class="fa-solid fa-door-open"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">高潮卡 (CX) 構成</p>
+                    <p id="stat-cx" class="text-xl font-black text-amber-300">4 Standby + 4 門</p>
+                </div>
+            </div>
+
+            <!-- Stat Box 3 -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-4">
+                <div class="p-3 bg-sky-500/10 rounded-xl text-sky-400 border border-sky-500/20 text-xl">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">核心機制</p>
+                    <p id="stat-core" class="text-base font-bold text-sky-200">記憶壓縮 + CX 聯動斬殺</p>
+                </div>
+            </div>
+
+            <!-- Stat Box 4 -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-4">
+                <div class="p-3 bg-purple-500/10 rounded-xl text-purple-400 border border-purple-500/20 text-xl">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">顏色配比</p>
+                    <div id="stat-colors" class="flex flex-wrap items-center gap-1.5 mt-1"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level Distribution Bar -->
+        <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm">
+            <h2 class="text-sm font-bold text-slate-300 mb-3 flex items-center">
+                <i class="fa-solid fa-chart-column mr-2 text-blue-400"></i> 等級 (Level) 曲線佈局
+            </h2>
+            <div class="grid grid-cols-5 gap-3 text-center">
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
+                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 0</div>
+                    <div id="lvl-n0" class="text-lg sm:text-xl font-extrabold text-blue-400">16 張</div>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="lvl-w0" class="bg-blue-500 h-full" style="width: 16%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
+                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 1</div>
+                    <div id="lvl-n1" class="text-lg sm:text-xl font-extrabold text-emerald-400">13 張</div>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="lvl-w1" class="bg-emerald-500 h-full" style="width: 16%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
+                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 2</div>
+                    <div id="lvl-n2" class="text-lg sm:text-xl font-extrabold text-amber-400">6 張</div>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="lvl-w2" class="bg-amber-500 h-full" style="width: 16%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
+                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 3</div>
+                    <div id="lvl-n3" class="text-lg sm:text-xl font-extrabold text-purple-400">7 張</div>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="lvl-w3" class="bg-purple-500 h-full" style="width: 16%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
+                    <div class="text-xs text-slate-400 font-semibold mb-1">Climax (高潮)</div>
+                    <div id="lvl-n4" class="text-lg sm:text-xl font-extrabold text-rose-400">8 張</div>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="lvl-w4" class="bg-rose-500 h-full" style="width: 16%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Deck List & Filters -->
+        <section class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-4 border border-slate-800 rounded-2xl">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-bold text-slate-400 mr-2"><i class="fa-solid fa-filter mr-1"></i>分類篩選:</span>
+                    <div id="filter-bar" class="inline-flex flex-wrap items-center gap-2"></div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="setViewMode('grid')" id="btn-grid" class="p-2 rounded-lg bg-blue-600 text-white text-xs"><i class="fa-solid fa-th-large mr-1"></i> 圖鑑藝廊</button>
+                    <button onclick="setViewMode('table')" id="btn-table" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs"><i class="fa-solid fa-list mr-1"></i> 清單模式</button>
+                </div>
+            </div>
+
+            <!-- Cards Visual Grid View -->
+            <div id="deck-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Cards dynamically populated via JavaScript with Image renders -->
+            </div>
+
+            <!-- Table View (Hidden by default) -->
+            <div id="deck-table" class="hidden overflow-x-auto bg-slate-900 border border-slate-800 rounded-2xl">
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="text-xs uppercase bg-slate-800/80 text-slate-400 border-b border-slate-700">
+                        <tr>
+                            <th class="px-4 py-3">卡牌縮圖</th>
+                            <th class="px-4 py-3">卡號/名稱</th>
+                            <th class="px-4 py-3">產品</th>
+                            <th class="px-4 py-3">等級</th>
+                            <th class="px-4 py-3">費用</th>
+                            <th class="px-4 py-3">顏色</th>
+                            <th class="px-4 py-3">張數</th>
+                            <th class="px-4 py-3">主要戰術功能與效果說明</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deck-table-body" class="divide-y divide-slate-800">
+                        <!-- Table rows populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Strategy & Gameplay Breakdown -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="space-y-6">
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-6">
+                            <h2 class="text-xl font-bold text-amber-400 flex items-center">
+                                <i class="fa-solid fa-chess-board mr-3"></i> 各等級戰術運作指南 (Game Plan)
+                            </h2>
+
+                            <div class="p-4 bg-slate-800/50 rounded-xl border-l-4 border-blue-500 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-bold text-blue-400">Level 0: 記憶壓縮與濾牌起手</h3>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">前期鋪墊</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    以「珍貴的回憶 欣克爾 (S108-001)」與「鏡蓮華手環 費倫 (S108-046)」建立場面並調整山牌頂，用「魔法的世界 芙莉蓮 (S136-078)」維持戰線。Vol.2「收集魔導具 芙莉蓮 (S136-068)」負責記憶區運作，為 Level 1 的記憶高戰力與 Level 3 斬殺做準備。
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-slate-800/50 rounded-xl border-l-4 border-emerald-500 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-bold text-emerald-400">Level 1: 「初次約會」Standby CX 聯動</h3>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">中期發動</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    打出核心聯動「難得的約會」費倫 (S136-054)，配合 CX「初次約會 (S136-075)」的 Standby 觸發在對手回合提前展開；「稱讚我的人 芙莉蓮 (S108-016)」在記憶區有卡時 Power+2500，是 Level 1 的主力打手。
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-slate-800/50 rounded-xl border-l-4 border-amber-500 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-bold text-amber-400">Level 2: 應援防守與資源控管</h3>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">過渡控場</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    「七崩賢」阿烏拉 (S108-040) 應援讓前方 L3 角色 +2000；「突然歸來 費倫 (S136-055)」的助太刀 2500 可除去對手高級角色；「旅途日常 欣克爾 (S136-007)」以高 Soul 壓制對手血線。事件「變出花田的魔法 (S108-105)」可在終盤打亂對手 Stock。
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-slate-800/50 rounded-xl border-l-4 border-purple-500 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-bold text-purple-400">Level 3: 「十足的勝機」門聯動極致斬殺</h3>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">終局勝負</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    時鐘區有「致命的破綻 費倫 (S136-081)」即可早出登場，配合 CX「十足的勝機 (S136-098)」的門觸發回收高潮卡，發動 CX 聯動追加打擊與傷害，單回合完成斬殺——這就是 Vol.2 帶來的最強終結線！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <h2 class="text-lg font-bold text-sky-400 flex items-center">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Vol. 2 帶來的大幅升級
+                            </h2>
+
+                            <div class="space-y-3">
+                                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60">
+                                    <div class="text-xs font-bold text-amber-300 mb-1"><i class="fa-solid fa-bolt mr-1"></i> 斬殺能力頂級化</div>
+                                    <p class="text-xs text-slate-400">「致命的破綻 費倫」早出 + 「十足的勝機」門聯動追加打擊，關鍵局勝率大幅提高。</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60">
+                                    <div class="text-xs font-bold text-blue-300 mb-1"><i class="fa-solid fa-shield-halved mr-1"></i> 大面板與防守強化</div>
+                                    <p class="text-xs text-slate-400">「活了千年以上的精靈 芙莉蓮」+3500 大面板，「突然歸來 費倫」助太刀除去高級角色。</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60">
+                                    <div class="text-xs font-bold text-emerald-300 mb-1"><i class="fa-solid fa-recycle mr-1"></i> 4 Standby + 4 門 的 CX 構成</div>
+                                    <p class="text-xs text-slate-400">「初次約會」Standby 提前展開，「十足的勝機」門觸發回收高潮卡，資源永不匱乏。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
+                            <h2 class="text-lg font-bold text-rose-400 flex items-center">
+                                <i class="fa-solid fa-crosshairs mr-2"></i> 對陣《我推的孩子》勝負關鍵
+                            </h2>
+                            <ul class="space-y-2 text-xs text-slate-300">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5 mr-2"></i>
+                                    <span>對方擅長高 Soul 速攻與早出壓場，Level 2 務必留住「突然歸來 費倫」的助太刀與「七崩賢」阿烏拉的應援，守住血線進入斬殺回合。</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5 mr-2"></i>
+                                    <span>斬殺回合用「十足的勝機」的門觸發回收高潮卡，確保「致命的破綻 費倫」聯動連續兩回合發動，一次帶走。</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+        </section>
+
+    </main>
+
+    <!-- Card Detail Modal -->
+    <div id="card-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 space-y-4 relative shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content" class="space-y-4">
+                <!-- Modal info filled via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mulligan / Sample Hand Simulator Modal -->
+    <div id="mulligan-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-3xl w-full p-6 space-y-5 relative shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
+            <button onclick="closeMulliganModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-bold text-amber-400 flex items-center">
+                    <i class="fa-solid fa-dice mr-2"></i> 起手 5 張抽牌與換牌模擬器
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5">點擊卡牌標記為「棄置 (Discard)」，然後按下換牌按鈕測試起手手牌品質。</p>
+            </div>
+
+            <!-- Hand Display -->
+            <div id="sample-hand-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <!-- Hand cards generated via JS -->
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-800">
+                <div class="text-xs text-slate-400" id="mulligan-status">
+                    提示：起手建議優先保留 L0 欣克爾與 L1 Choice 門高潮卡。
+                </div>
+                <div class="flex space-x-2 w-full sm:w-auto justify-end">
+                    <button onclick="redrawMulliganHand()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold">
+                        重新洗牌抽 5 張
+                    </button>
+                    <button onclick="executeMulliganSwap()" class="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg text-xs font-bold shadow-lg shadow-amber-500/20">
+                        執行起手換牌
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>《葬送的芙莉蓮》Weiss Schwarz Deck Reference • Powered by Vol.1 + Vol.2 Hybrid 8 Choice Engine</p>
+            <p class="mt-1">卡牌圖片與資料僅供遊戲對局策略交流使用。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Interactive Logic -->
+    <script>
+        // Helper function for visual fallback card SVG generation
+        function getSvgCardFallback(code, name, color, type, level) {
+            const bgGrad = color === 'yellow' ? '%2378350f,%23b45309' : color === 'blue' ? '%231e3a8a,%231d4ed8' : '%23881337,%23be123c';
+            const textEsc = encodeURIComponent(name);
+            const codeEsc = encodeURIComponent(code);
+            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420" viewBox="0 0 300 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${bgGrad.split(',')[0]}"/><stop offset="100%" stop-color="${bgGrad.split(',')[1]}"/></linearGradient></defs><rect width="300" height="420" rx="16" fill="url(%23g)"/><rect x="12" y="12" width="276" height="396" rx="12" fill="%230f172a" fill-opacity="0.85" stroke="%23334155" stroke-width="2"/><text x="24" y="45" font-family="sans-serif" font-size="14" font-weight="bold" fill="%23f8fafc">${codeEsc}</text><text x="24" y="70" font-family="sans-serif" font-size="18" font-weight="900" fill="%23facc15">${textEsc}</text><circle cx="250" cy="45" r="18" fill="%233b82f6"/><text x="250" y="50" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="%23ffffff">L${level}</text><rect x="24" y="90" width="252" height="280" rx="8" fill="%231e293b" stroke="%23475569"/><text x="150" y="240" font-family="sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="%2394a3b8">${type}</text></svg>`;
+        }
+
+        // Comprehensive 50-card Deck Data with high quality card image URLs & fallbacks
+        const deckProfiles = [
+    { id: 'v1v2', name: 'Vol.1 + Vol.2 混構', cxLabel: '4 Standby + 4 門', core: '記憶壓縮 + CX 聯動斬殺', cards: [
+        {id:1, name:"珍貴的回憶 欣克爾", code:"SFN/S108-001", detail:"【自】此卡從手牌登場到舞台時，其他你的《冒險者》或《魔法》角色存在，則該回合中此卡 Power+1500，並獲得以下能力：『【自】此卡攻擊時，你看山牌頂 1 張，放回山牌頂或底。』 / 【自】[(1) 將此卡送入控室] 其他你的《冒險者》或《魔法》角色被正面攻擊時，可支付費用，若支付則將該角色回手牌。", flavor:"大概是為了讓你在未來不會孤單一人吧", level:0, cost:0, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_001.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_001.png", text:"登場時其他冒險者或魔法角色存在則+1500，並獲得攻擊時調整山牌頂的能力。", role:"L0 記憶引擎 / 前期打點"},
+        {id:2, name:"魔法的世界 芙莉蓮", code:"SFN/S136-078", detail:"【自】此卡從手牌登場到舞台時，選 1 張你的《冒險者》或《魔法》角色，該回合中 Power+1500。 / 【自】此卡從手牌登場到舞台時，選 1 張你的角色，該回合中獲得以下能力：『【自】此卡的戰鬥對手被 Reverse 時，選 1 張你的其他角色將其 Rest，並移動到後列沒有角色的空格。』", flavor:"", level:0, cost:0, color:"blue", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_078.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_078.png", text:"登場時選1張冒險者或魔法角色+1500；再選1張角色獲得反擊時Reverse敵人的能力。", role:"L0 打手 / 反擊支援"},
+        {id:3, name:"鏡蓮華手環 費倫", code:"SFN/S108-046", detail:"【自】此卡從手牌登場到舞台時，看山牌頂至多 2 張，選擇至多 2 張以任意順序放回山牌頂，其餘送入控室。 / 【自】此卡被 Reverse 時，戰鬥對手等級 0 以下，則可將其 Reverse。", flavor:"這是史塔克大人努力挑選送給我的東西。<br>請別再說那種話了", level:0, cost:0, color:"red", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_046.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_046.png", text:"登場時看山牌頂2張任意放回頂；Reverse時可反擊等級0以下的對手。", role:"L0 頂張檢索 / 濾牌"},
+        {id:4, name:"艾冉的弟子 史塔克", code:"SFN/S108-060", detail:"【永】此卡下方有標記時，此卡等級+1、Power+2500。 / 【自】此卡從手牌登場到舞台時，公開山牌頂 1 張。若為《冒險者》或《魔法》角色或事件卡，可作為標記反面放到此卡下方。（否則放回原位）", flavor:"原來如此，30 秒啊", level:0, cost:0, color:"red", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_060.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_060.png", text:"從手牌登場時，冒險者或魔法角色2張以上則此卡+1500。", role:"L0 前期打點"},
+        {id:5, name:"收集魔導具 芙莉蓮", code:"SFN/S136-068", detail:"【永】記憶 此卡在記憶區時，你的「不器用な誕生日 シュタルク」全部獲得以下能力：『【自】[(2) 手牌 2 張送入控室] 此卡攻擊結束時，你的「不器用な誕生日 フェルン」的標記中有「誕生日プレゼント」，可支付費用，若支付則宣言任意數字，給予對方 X 點傷害。X 等於你宣言的數字。』（不可宣言負數。可發生傷害取消） / 【永】記憶 此卡在記憶區時，你的「不器用な誕生日 フェルン」全部不會被對方效果選中。 / 【起】[(1) 將此卡送入記憶區] 從控室選 1 張「誕生日プレゼント」回手牌。", flavor:"費倫：「前陣子我埋在一堆魔導具裡睡著了」", level:1, cost:0, color:"red", qty:2, type:"Character", soul:1, memory:true, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_068.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_068.png", text:"記憶：此卡在記憶區時支援「不器用な誕生日 シュタルク」；登場回合攻擊時可付費檢索角色。", role:"L1 記憶輔助"},
+        {id:6, name:"「難得的約會」費倫", code:"SFN/S136-054", detail:"【永】你的回合中，其他你的《冒險者》或《魔法》角色 2 張以上時，此卡 Power+2000。 / 【自】【CX 聯動】[CX 區的「初次約會」1 張送入控室] 此卡攻擊時，其他你的《冒險者》或《魔法》角色存在，可支付費用，若支付則看山牌頂至多 4 張，選擇至多 1 張《冒險者》或《魔法》角色展示給對手看，加入手牌，其餘送入控室，並從控室選至多 1 張「穏やかな時間」回手牌。", flavor:"明明是難得的約會…", level:1, cost:0, color:"red", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_054.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_054.png", text:"回合中其他冒險者或魔法角色2張以上則+2000；CX聯動：捨棄CX區的「初次約會」發動追加能力。", role:"L1 核心 CX 聯動（初次約會）"},
+        {id:7, name:"稱讚我的人 芙莉蓮", code:"SFN/S108-016", detail:"【永】記憶 你的回合中，記憶區有卡片時，此卡 Power+2500，並獲得以下能力：『【自】此卡攻擊時，正面角色等級 2，則該回合中此卡 Power+6000。』", flavor:"海塔：「若你願意說說你的身世，我就代替他稱讚你喔」", level:1, cost:0, color:"yellow", qty:3, type:"Character", soul:1, memory:true, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_016.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_016.png", text:"記憶：你的回合記憶區有卡則+2500，攻擊時正面角色等級2則再+6000。", role:"L1 記憶高戰力打手"},
+        {id:8, name:"變出花田的魔法", code:"SFN/S108-105", detail:"從控室選擇至多 1 張角色回手牌，之後可執行以下效果：『對方將 Stock 全部放回山牌並洗牌，再從山牌頂放回相同張數至 Stock 區。』", flavor:"", level:3, cost:1, color:"blue", qty:3, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_105.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_105.png", text:"回收控室1張角色回手牌，之後可將對方Stock全部洗回山牌。", role:"事件 / 終盤回收 + 對方Stock破壞"},
+        {id:9, name:"「七崩賢」阿烏拉", code:"SFN/S108-040", detail:"【永】應援 此卡前方你的等級 3 以上角色全部 Power+2000。 / 【自】[手牌 1 張送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則從控室選 1 張「服從的魔法」回手牌。", flavor:"既然如此，就更沒有必要做這種事了吧？", level:2, cost:1, color:"green", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_040.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_040.png", text:"應援：前方等級3以上角色全部+2000；登場時可回收「服從的魔法」。", role:"L2 應援 / L3前 +2000"},
+        {id:10, name:"突然歸來 費倫", code:"SFN/S136-055", detail:"【自】[(2) 舞台 1 張角色送入控室] 你使用此卡的「助太刀」時，可支付費用，若支付則選擇對方 1 張等級高於對方等級的角色送入控室。 / 【起】【Counter】助太刀 2500 等級 2 [(1) 手牌此卡送入控室]（選 1 張你被正面攻擊的角色，該回合中 Power+2500）", flavor:"你剛才在睡覺吧？", level:2, cost:1, color:"red", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_055.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_055.png", text:"助太刀2500：使用時可付費將對手等級高於其等級的角色送入Stock。", role:"L2 助太刀 / 高級角色除去"},
+        {id:11, name:"致命的破綻 費倫", code:"SFN/S136-081", detail:"【永】時鐘區有「致命的破綻 費倫」時，手牌此卡等級-1。 / 【自】【CX 聯動】[CX 區的「十足的勝機」1 張送入控室] 安可階段開始時，可支付費用，若支付則從以下 2 種效果選擇 1 種執行：『此卡在前列時，給予對方 2 點傷害，並從控室選至多 1 張「積み重ねた時間」回手牌。』『[(3) 手牌 1 張送入控室] 此卡在後列時，可支付費用，若支付則看對方山牌頂至多 2 張，選擇至多 2 張以任意順序放回山牌頂，其餘送入控室，並給予對方 4 點傷害。』（可發生傷害取消）", flavor:"也許我能殺死芙莉蓮大人", level:3, cost:2, color:"blue", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_081.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_081.png", text:"時鐘區有此卡則手牌等級-1（早出）；CX聯動「十足的勝機」：安可Step付費獲得追加打擊與傷害。", role:"L3 斬殺核心（十足的勝機 聯動）"},
+        {id:12, name:"活了千年以上的精靈 芙莉蓮", code:"SFN/S136-003", detail:"【永】其他你的《冒險者》或《魔法》角色 2 張以上時，此卡 Power+3500，並獲得以下能力：『【自】此卡攻擊結束時，看 Stock 頂 1 張，放回 Stock 頂或底。』 / 【自】【CX 聯動】此卡攻擊時，CX 區有「立派な親代わり」，則看山牌頂至多 4 張，選擇至多 1 張《冒險者》或《魔法》角色或事件卡展示給對手看，加入手牌或放到 Stock 區，其餘送入控室。放到 Stock 區時，該回合中此卡 Power+2000。", flavor:"那麼，出發吧", level:1, cost:0, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_003.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_003.png", text:"其他冒險者或魔法角色2張以上則+3500，攻擊結束時可調整Stock頂。", role:"L1 大面板打手"},
+        {id:13, name:"旅途日常 欣克爾", code:"SFN/S136-007", detail:"【永】你的回合中，其他你的《冒險者》或《魔法》角色每 1 張，此卡 Power+1500。 / 【自】【CX 聯動】[CX 區的「パーティーとして」1 張送入控室] 此卡攻擊結束時，其他你的《冒險者》或《魔法》角色存在，可支付費用，若支付則從控室選至多 2 張《冒險者》或《魔法》角色回手牌。", flavor:"", level:2, cost:0, color:"yellow", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_007.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_007.png", text:"回合中其他冒險者或魔法角色每1張+1500；CX聯動「パーティーとして」攻擊結束時追加效果。", role:"L2 高Soul打手（パーティーとして 聯動）"},
+        {id:14, name:"初次約會", code:"SFN/S136-075", detail:"【自】此卡從手牌放到 CX 區時，執行 Standby 效果。 / （Standby 觸發：此卡觸發時，從控室選擇 1 張等級在你等級+1 以下的角色，以 Rest 狀態放到舞台任意空格）", flavor:"史塔克：「約會真划算啊」<br>費倫：「真是毫不修飾呢」", level:0, cost:0, color:"red", qty:4, type:"Climax", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_075.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_075.png", text:"全體角色+1000/+1；Standby觸發：可從手牌將等級1以下角色放到舞台。", role:"CX Standby（全體 +1000 / +1）"},
+        {id:15, name:"十足的勝機", code:"SFN/S136-098", detail:"【永】你的角色全部 Power+1000、Soul+1。 / （門觸發：此卡觸發時，可從控室選 1 張高潮卡回手牌）", flavor:"", level:0, cost:0, color:"blue", qty:4, type:"Climax", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_098.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_098.png", text:"全體角色+1000/+1；門觸發：可從控室回收1張高潮卡。", role:"CX 門（全體 +1000 / +1）"}
+    ] },
+    { id: 'bcf', name: 'BCF2024 官方構築 (S108)', cxLabel: '4 Choice + 4 門', core: 'ヒンメル記憶斬殺 + 月夜的對決回收', cards: [
+        {id:1, name:"啟程的契機 欣克爾", code:"SFN/S108-003", detail:"【自】[(1)] 此卡從手牌登場到舞台時，其他你的《冒險者》或《魔法》角色存在，可將時鐘區頂至多 1 張送入控室，並支付費用。若支付，則從手牌選擇至多 1 張「啟程的契機 芙莉蓮」，放到舞台任意空格。 / 【自】【CX 聯動】此卡攻擊時，CX 區有「久遠的愛情」、手牌 5 張以下、其他你的《冒險者》或《魔法》角色 2 張以上，則將對方山牌底部 3 張送入控室，並給予對方 X 次 2 點傷害。X 等於那些卡片中的高潮卡張數。（可發生傷害取消）", flavor:"牽起我的手吧，芙莉蓮", level:3, cost:2, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_003.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_003.png", text:"登場時回血，可付費從手牌將「啟程的契機 芙莉蓮」放到舞台；CX聯動攻擊時追加效果。", role:"L3 核心終結（ヒンメル）"},
+        {id:2, name:"啟程的契機 芙莉蓮", code:"SFN/S108-009", detail:"【永】其他你的《冒險者》或《魔法》角色全部 Power+1500。 / 【自】此卡從手牌登場到舞台時，其他你的《冒險者》或《魔法》角色存在，則看對方山牌底至多 2 張，選擇至多 2 張以任意順序放回山牌底，其餘送入控室。", flavor:"是欣克爾他們教會了我踏上旅程的勇氣，以及與夥伴相處的快樂", level:3, cost:2, color:"yellow", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_009.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_009.png", text:"作為「啟程的契機 欣克爾」的召喚對象，組成L3連續斬殺。", role:"L3 聯動夥伴"},
+        {id:3, name:"重要的事物 芙莉蓮", code:"SFN/S108-081", detail:"【永】控室事件卡 6 張以上時，手牌此卡等級-1。 / 【永】其他你的《冒險者》或《魔法》角色 2 張以上時，此卡 Power+2000，並獲得『【自】安可 [手牌 1 張事件卡或高潮卡送入控室]』。 / 【自】[手牌 1 張送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則將時鐘區頂 1 張放到 Stock 區。", flavor:"", level:3, cost:2, color:"blue", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_081.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_081.png", text:"L3 獨立斬殺打點，穩定的終盤火力。", role:"L3 高火力打手"},
+        {id:4, name:"通過關卡 芙莉蓮", code:"SFN/S108-088", detail:"【自】此卡攻擊時，選 1 張其他你的《冒險者》或《魔法》角色，該回合中 Power+X。X 等於控室中事件卡張數×1500。 / 【自】此卡被 Reverse 時，戰鬥對手等級高於對方等級，則可將該角色放到山牌底。", flavor:"等等…感覺這走向很不妙…", level:2, cost:1, color:"blue", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_088.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_088.png", text:"L2 過渡打手，填補等級曲線。", role:"L2 打手"},
+        {id:5, name:"把甜葡萄變成酸葡萄的魔法", code:"SFN/S108-106", detail:"你的《冒險者》或《魔法》角色不存在時，此卡無法從手牌使用。 / 可選擇對方 1 張等級 1 以上的角色。若選擇，對方從控室選 1 張等級 X 以下的角色與其互換。X 等於你所選角色的等級-1。 / 將此卡放到 Stock 區。", flavor:"好酸", level:2, cost:0, color:"blue", qty:2, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_106.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_106.png", text:"L2 事件，破壞對手資源優勢的對策卡。", role:"事件 / 對策"},
+        {id:6, name:"「勇者之劍」欣克爾", code:"SFN/S108-014", detail:"【自】[手牌 1 張《冒險者》或《魔法》角色送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則抽 1 張。 / 【自】此卡被 Reverse 時，戰鬥對手等級 X 以下，則可將其 Reverse。X 等於你控室中「啟程的契機 欣克爾」的張數。", flavor:"那就成為真正的勇者吧。當時我是這麼想的", level:1, cost:0, color:"yellow", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_014.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_014.png", text:"L1 穩定打手，支撐中期場面。", role:"L1 打手"},
+        {id:7, name:"「魔法使」費倫", code:"SFN/S108-073", detail:"【永】其他你的《冒險者》或《魔法》角色 2 張以上時，此卡 Power+2000。 / 【自】【CX 聯動】你的 CX 區放置「月夜的對決」時，此卡在前列且其他你的《冒險者》或《魔法》角色 2 張以上，則從控室選擇至多 1 張「尋找遺失飾品的魔法」或「飛行魔法」回手牌，該回合中此卡 Power+1000。", flavor:"", level:1, cost:0, color:"blue", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_073.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_073.png", text:"CX聯動「月夜的對決」：回收「飛行魔法」與「尋找遺失飾品的魔法」，形成資源循環。", role:"L1 核心 CX 聯動（月夜的對決）"},
+        {id:8, name:"尋找遺失飾品的魔法", code:"SFN/S108-066", detail:"【Counter】你的《冒險者》或《魔法》角色不存在時，此卡無法從手牌使用。可抽 1 張，之後選 1 張手牌送入控室。 / 從控室選 1 張《冒險者》或《魔法》角色回手牌。", flavor:"", level:1, cost:1, color:"red", qty:4, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_066.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_066.png", text:"L1 事件，CX聯動的回收對象與檢索手段。", role:"事件 / 檢索"},
+        {id:9, name:"飛行魔法", code:"SFN/S108-104", detail:"【Counter】你的《冒險者》或《魔法》角色不存在時，此卡無法從手牌使用。看山牌頂至多 4 張，選擇至多 1 張《冒險者》或《魔法》角色展示給對手看，加入手牌，其餘送入控室。", flavor:"", level:1, cost:0, color:"blue", qty:4, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_104.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_104.png", text:"L1 事件，攻擊支援與CX聯動回收對象。", role:"事件 / 打點支援"},
+        {id:10, name:"珍貴的回憶 欣克爾", code:"SFN/S108-001", detail:"【自】此卡從手牌登場到舞台時，其他你的《冒險者》或《魔法》角色存在，則該回合中此卡 Power+1500，並獲得以下能力：『【自】此卡攻擊時，你看山牌頂 1 張，放回山牌頂或底。』 / 【自】[(1) 將此卡送入控室] 其他你的《冒險者》或《魔法》角色被正面攻擊時，可支付費用，若支付則將該角色回手牌。", flavor:"大概是為了讓你在未來不會孤單一人吧", level:0, cost:0, color:"yellow", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_001.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_001.png", text:"L0 記憶引擎，前期場面與壓縮。", role:"L0 記憶/打點"},
+        {id:11, name:"「弗蘭梅的第一弟子」芙莉蓮", code:"SFN/S108-006", detail:"【自】此卡從手牌登場到舞台時，可將手牌 1 張放到 Stock 區。 / 【自】[(1) 手牌 1 張高潮卡送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則從控室選 1 張事件卡回手牌。", flavor:"想讓師父你知道呢？", level:0, cost:0, color:"yellow", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_006.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_006.png", text:"L0 輔助打點。", role:"L0 輔助"},
+        {id:12, name:"下一個工作 海塔", code:"SFN/S108-T02", detail:"【永】其他你的《冒險者》或《魔法》角色全部 Power+500。 / 【起】[手牌 1 張送入控室，將此卡放到山牌底] 看山牌找至多 1 張《冒險者》或《魔法》角色展示給對手看，加入手牌並洗牌。", flavor:"能喝酒的工作最好呢", level:0, cost:0, color:"yellow", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_t02.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_t02.png", text:"起始牌組卡：L0 TD 打手，低成本補位。", role:"L0 TD 打手"},
+        {id:13, name:"「大魔法使」賽莉耶", code:"SFN/S108-025", detail:"【自】[(1) 山牌頂 1 張放到時鐘區] 此卡從手牌登場到舞台時，可支付費用，若支付則看山牌找 1 張等級 1 以下的角色展示給對手看，加入手牌並洗牌。 / 【自】[(1) 手牌 1 張事件卡送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則從控室選 1 張事件卡回手牌。", flavor:"", level:0, cost:0, color:"green", qty:3, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_025.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_025.png", text:"L0 集中檢索，壓縮山牌。", role:"L0 集中/檢索"},
+        {id:14, name:"鏡蓮華手環 費倫", code:"SFN/S108-046", detail:"【自】此卡從手牌登場到舞台時，看山牌頂至多 2 張，選擇至多 2 張以任意順序放回山牌頂，其餘送入控室。 / 【自】此卡被 Reverse 時，戰鬥對手等級 0 以下，則可將其 Reverse。", flavor:"這是史塔克大人努力挑選送給我的東西。<br>請別再說那種話了", level:0, cost:0, color:"red", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_046.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_046.png", text:"登場時調整山牌頂2張。", role:"L0 頂張檢索"},
+        {id:15, name:"「魔法使」芙莉蓮", code:"SFN/S108-T11", detail:"【自】[(1) 手牌 1 張高潮卡送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則從控室選 1 張高潮卡回手牌。 / 【自】戰鬥中的此卡被 Reverse 時，戰鬥對手等級 0 以下，則可將該角色放到山牌底。", flavor:"我也差不多該走了", level:0, cost:0, color:"blue", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_t11.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_t11.png", text:"起始牌組卡：L0 TD 打手，低成本補位。", role:"L0 TD 打手"},
+        {id:16, name:"冬季裝扮 芙莉蓮", code:"SFN/S108-072", detail:"【自】[手牌 1 張送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則看山牌頂至多 4 張，選擇至多 1 張等級 1 以上的卡片展示給對手看，加入手牌，其餘送入控室。（高潮卡的等級視為 0）", flavor:"我想我是想給你一個契機吧", level:0, cost:0, color:"blue", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_072.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_072.png", text:"L0 主力打手，數量壓縮。", role:"L0 壓縮/打手"},
+        {id:17, name:"可靠的魔法使 費倫", code:"SFN/S108-071", detail:"【自】此能力每回合最多發動 3 次。你使用事件卡時，看山牌頂至多 2 張，以任意順序放回山牌頂。 / 【起】集中 [(1) 將此卡 Rest] 翻山牌頂 4 張送入控室，其中每有 1 張高潮卡，可從控室選至多 1 張角色回手牌。", flavor:"", level:0, cost:0, color:"blue", qty:3, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_071.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_071.png", text:"L0 集中與事件聯動，穩定資源。", role:"L0 集中"},
+        {id:18, name:"久遠的愛情", code:"SFN/S108-022", detail:"【永】你的角色全部 Power+1000、Soul+1。 / （Choice 觸發：此卡觸發時，可從控室選擇 1 張觸發圖示含 Soul 的角色，回手牌或放到 Stock 區）", flavor:"", level:0, cost:0, color:"yellow", qty:4, type:"Climax", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_022.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_022.png", text:"Choice觸發：回收或進Stock。", role:"CX Choice（全體 +1000 / +1）"},
+        {id:19, name:"月夜的對決", code:"SFN/S108-108", detail:"【永】你的角色全部 Power+1000、Soul+1。 / （門觸發：此卡觸發時，可從控室選 1 張高潮卡回手牌）", flavor:"殺死魔族的魔法", level:0, cost:0, color:"blue", qty:4, type:"Climax", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_108.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_108.png", text:"門觸發：回收高潮卡；聯動「魔法使」費倫。", role:"CX 門（全體 +1000 / +1）"}
+    ] },
+    { id: 'exam', name: 'Vol.2 選拔試驗 構築', cxLabel: '8 Focus', core: '選拔試驗免費事件 + 破滅之雷斬殺', cards: [
+        {id:1, name:"一級魔法使選拔考試 芙莉蓮", code:"SFN/S136-004PS", level:3, cost:2, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_004ps.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_004ps.png", text:"L3 斬殺核心：CX聯動可免費使用事件卡", role:"L3 斬殺核心（魔法的高峰 聯動）", detail:"【永】你的回合中，此卡 Power+3000。 / 【自】【CX 聯動】此卡攻擊時，CX 區有「魔法的高峰」，從以下 3 種效果選 1 種：『將山牌頂至多 5 張放到 Stock 區。』『從手牌選擇至多 1 張滿足等級與顏色條件的「釋放地獄業火的魔法」，不支付費用使用。』『該回合中此卡獲得以下能力：『【自】[(8) 手牌 1 張黃色卡片送入控室，CX 區的 CX 1 張送入控室] 安可階段開始時，此卡在前列，可支付費用，若支付則從手牌選擇至多 1 張滿足等級與顏色條件的「釋放破滅之雷的魔法」，不支付費用使用。』』", flavor:""},
+        {id:2, name:"真正的意義 欣克爾", code:"SFN/S136-008", level:3, cost:2, color:"yellow", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_008.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_008.png", text:"L3 早出高火力（focus CX 3張條件）", role:"L3 早出高火力", detail:"【永】控室中 Focus 觸發的 CX 3 張以上時，手牌此卡等級-1。 / 【永】你的回合中，你的角色全部為《冒險者》或《魔法》時，此卡 Power+2000，並獲得『【自】此卡的戰鬥對手被 Reverse 時，可將該角色放到山牌頂。』 / 【自】[手牌 1 張《冒險者》或《魔法》角色送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則將時鐘區頂 1 張回手牌。", flavor:"我們追求的是幫助某人，而不是感謝的話語"},
+        {id:3, name:"摸摸頭的代價 芙莉蓮", code:"SFN/S136-017", level:3, cost:2, color:"yellow", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_017.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_017.png", text:"L3 打手：登場重置對方Stock，攻擊可打4點", role:"L3 打手 / Stock 破壞", detail:"【自】此卡從手牌登場到舞台時，該回合中此卡 Power+1000，並可執行以下效果：『對方將 Stock 全部放回山牌並洗牌，再從山牌頂放回相同張數至 Stock 區。』 / 【自】[(3) 手牌 2 張送入控室] 此卡攻擊時，可支付費用，若支付則給予對方 4 點傷害。（可發生傷害取消）", flavor:"想摸多久都行喔"},
+        {id:4, name:"配合步伐 費倫＆史塔克", code:"SFN/S136-052", level:3, cost:2, color:"red", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_052.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_052.png", text:"L3 早出：登場回血或Soul-2壓制", role:"L3 早出防守 / Soul 壓制", detail:"【永】你的《冒險者》或《魔法》角色 4 張以上時，手牌此卡等級-1。 / 【永】其他你的《冒險者》或《魔法》角色 2 張以上時，此卡 Power+2000。 / 【自】此卡從手牌登場到舞台時，從以下 2 種效果選 1 種：『可將時鐘區頂 1 張送入控室。』『其他你的《冒險者》或《魔法》角色 2 張以上時，到下一個對方回合結束為止，此卡獲得以下能力：『【永】此卡正面角色的 Soul-2。』』", flavor:"費倫：「史塔克大人，你的動作好像有點僵硬喔」<br>史塔克：「才沒有那回事」"},
+        {id:5, name:"約會的邀請 史塔克", code:"SFN/S136-071", level:2, cost:1, color:"red", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_071.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_071.png", text:"L2 打手：登場全體控室洗回山牌", role:"L2 打手 / 資源重置", detail:"【自】[手牌 1 張送入控室] 此卡從手牌登場到舞台時，可支付費用，若支付則所有玩家將控室全部卡片放回山牌並洗牌。 / 【自】此卡被 Reverse 時，戰鬥對手等級高於對方等級，則可將該角色送入記憶區。", flavor:"這麼想被關注的話，明天就來約會吧"},
+        {id:6, name:"致命的破綻 芙莉蓮", code:"SFN/S136-010", level:1, cost:0, color:"yellow", qty:2, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_010.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_010.png", text:"L1 Focus CX聯動：回血+全體支援", role:"L1 Focus CX 聯動 / 回血", detail:"【自】【回合 1】你使用事件卡時，看山牌頂至多 2 張，以任意順序放回山牌頂。 / 【自】你的 Focus 觸發的 CX 放到 CX 區時，依序執行以下 2 種效果：『選 1 張你的角色，該回合中 Power+1000、Soul+1。』『可選 1 張時鐘回手牌，若如此則選 1 張手牌放到時鐘區。』", flavor:"從以前就很苦手呢"},
+        {id:7, name:"活了千年以上的精靈 芙莉蓮", code:"SFN/S136-003", level:1, cost:0, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_003.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_003.png", text:"L1 大面板：+3500，CX聯動檢索", role:"L1 大面板打手", detail:"【永】其他你的《冒險者》或《魔法》角色 2 張以上時，此卡 Power+3500，並獲得『【自】此卡攻擊結束時，看 Stock 頂 1 張，放回 Stock 頂或底。』 / 【自】【CX 聯動】此卡攻擊時，CX 區有「出色的代理父母」，則看山牌頂至多 4 張，選擇至多 1 張《冒險者》或《魔法》角色或事件卡展示給對手看，加入手牌或放到 Stock 區，其餘送入控室。放到 Stock 區時，該回合中此卡 Power+2000。", flavor:"那麼，出發吧"},
+        {id:8, name:"「萬聖節魔法」芙莉蓮＆費倫", code:"SFN/S136-001", level:0, cost:0, color:"yellow", qty:3, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_001.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_001.png", text:"L0 集中：事件卡免色條件使用", role:"L0 集中 / 事件支援", detail:"【永】你的事件卡可不滿足顏色條件就從手牌使用。 / 【自】你的 CX 或「「萬聖節魔法」芙莉蓮＆費倫」觸發時，選 1 張你的《冒險者》或《魔法》角色，該回合中 Power+1000，並獲得『【自】此卡的戰鬥對手被 Reverse 時，可將該角色送入記憶區。』 / 【起】集中 [(1) 將此卡 Rest] 翻山牌頂 4 張送入控室，其中每有 1 張 CX，可從控室選至多 1 張《冒險者》或《魔法》角色回手牌。", flavor:""},
+        {id:9, name:"珍貴的回憶 欣克爾", code:"SFN/S108-001", level:0, cost:0, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_001.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_001.png", text:"L0 記憶引擎：登場+1500，可擋正面攻擊", role:"L0 記憶引擎 / 前期打點", detail:"【自】此卡從手牌登場到舞台時，其他你的《冒險者》或《魔法》角色存在，則該回合中此卡 Power+1500，並獲得以下能力：『【自】此卡攻擊時，你看山牌頂 1 張，放回山牌頂或底。』 / 【自】[(1) 將此卡送入控室] 其他你的《冒險者》或《魔法》角色被正面攻擊時，可支付費用，若支付則將該角色回手牌。", flavor:"大概是為了讓你在未來不會孤單一人吧"},
+        {id:10, name:"旅途的羈絆 芙莉蓮＆欣克爾", code:"SFN/S136-002", level:0, cost:0, color:"yellow", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_002.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_002.png", text:"L0 檢索：登場找L1以下，離場找角色", role:"L0 檢索引擎", detail:"【自】[(1) 山牌頂 1 張放到時鐘區] 此卡從手牌登場到舞台時，可支付費用，若支付則看山牌找至多 1 張等級 1 以下的角色展示給對手看，加入手牌並洗牌。 / 【自】[手牌 1 張事件卡送入控室] 此卡從舞台送入控室時，可支付費用，若支付則看山牌頂至多 5 張，選擇至多 1 張《冒險者》或《魔法》角色展示給對手看，加入手牌，其餘送入控室。", flavor:""},
+        {id:11, name:"「一級魔法使」格納烏", code:"SFN/S136-029", level:0, cost:0, color:"green", qty:1, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_029.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_029.png", text:"L0 打手：減攻+CX交換", role:"L0 打手 / CX 交換", detail:"【自】此卡從手牌登場到舞台時，選 1 張對方前列角色，該回合中 Power-1000。 / 【自】[(1)] 此卡從手牌登場到舞台時，可支付費用，若支付則看山牌找至多 1 張 CX 公開，再從手牌選至多 1 張 CX 公開，將這些 CX 互換並洗牌。", flavor:""},
+        {id:12, name:"作為弟子 芙莉蓮＆費倫", code:"SFN/S136-051", level:0, cost:0, color:"red", qty:4, type:"Character", soul:1, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_051.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_051.png", text:"L0 打手：攻擊時雙觸發檢查", role:"L0 雙觸發引擎", detail:"【永】你的回合中，此卡 Power+2000。 / 【自】[山牌頂 1 張放到時鐘區，或 Stock 頂 1 張送入控室] 此卡攻擊時，可支付費用，若支付則該次攻擊的觸發階段進行 2 次觸發檢查。", flavor:""},
+        {id:13, name:"釋放地獄業火的魔法", code:"SFN/S136-020", level:3, cost:5, color:"yellow", qty:2, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_020.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_020.png", text:"事件：終局破壞對方時鐘（特殊勝利型）", role:"事件 / 終局時鐘破壞", detail:"你的「一級魔法使選拔考試 芙莉蓮」存在、對方等級 2 且時鐘 4 張以上時，選 1 張對方時鐘放到等級區，其餘時鐘送入控室。 / 【自】【時鐘】鬧鐘 [手牌 1 張送入控室] 此卡在時鐘頂、手牌 5 張以上時，你的主要階段開始時，可支付費用，若支付則從控室選 1 張黃色角色回手牌。", flavor:""},
+        {id:14, name:"釋放破滅之雷的魔法", code:"SFN/S136-018", level:3, cost:15, color:"yellow", qty:2, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_018.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_018.png", text:"事件：4+3點總和傷害（斬殺王牌）", role:"事件 / 最大傷害", detail:"你的「一級魔法使選拔考試 芙莉蓮」存在時，給予對方 4 次 1 點傷害，再給予對方 3 點傷害。（可發生傷害取消） / 【自】【時鐘】鬧鐘 [手牌 1 張送入控室] 此卡在時鐘頂、手牌 5 張以上時，你的主要階段開始時，可支付費用，若支付則看山牌頂至多 3 張，選擇至多 1 張《冒險者》或《魔法》角色或事件卡展示給對手看，加入手牌，其餘送入控室。", flavor:""},
+        {id:15, name:"變出花田的魔法", code:"SFN/S108-105", level:3, cost:1, color:"blue", qty:1, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_105.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_105.png", text:"事件：回收角色+重置對方Stock", role:"事件 / 終盤回收 + 對方 Stock 破壞", detail:"從控室選擇至多 1 張角色回手牌，之後可執行以下效果：『對方將 Stock 全部放回山牌並洗牌，再從山牌頂放回相同張數至 Stock 區。』", flavor:""},
+        {id:16, name:"去除銅像鐵鏽的魔法", code:"SFN/S108-021", level:1, cost:1, color:"yellow", qty:2, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_021.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s108/sfn_s108_021.png", text:"事件：檢索黃CX+送「勇者一行の像」入記憶", role:"事件 / 檢索黃 CX", detail:"看山牌找至多 1 張黃色高潮卡展示給對手看，加入手牌並洗牌，再從控室選至多 1 張「勇者一行の像」送入記憶區。", flavor:""},
+        {id:17, name:"尋找銀礦石的魔法", code:"SFN/S136-019", level:1, cost:0, color:"yellow", qty:3, type:"Event", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_019.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_019.png", text:"事件：翻3張檢索角色", role:"事件 / 檢索角色", detail:"將山牌頂 3 張送入控室，從控室選至多 1 張等級 X 以下的《冒險者》或《魔法》角色回手牌。X 等於那些卡片中觸發圖示不含 Soul 的張數。", flavor:""},
+        {id:18, name:"魔法的高峰", code:"SFN/S136-023PS", level:0, cost:0, color:"yellow", qty:4, type:"Climax", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_023ps.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_023ps.png", text:"CX Focus：回收事件或低費角色", role:"CX Focus（全體 +1000 / +1）", detail:"【永】你的角色全部 Power+1000、Soul+1。 / （Focus 觸發：此卡觸發時，可從控室選 1 張事件卡或等級 0 以下的角色回手牌）", flavor:""},
+        {id:19, name:"出色的代理父母", code:"SFN/S136-024", level:0, cost:0, color:"yellow", qty:4, type:"Climax", soul:0, memory:false, image:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_024.png", fallbackImg:"https://ws-tcg.com/wordpress/wp-content/images/cardlist/s/sfn_s136/sfn_s136_024.png", text:"CX Focus：回收事件或低費角色", role:"CX Focus（全體 +1000 / +1）", detail:"【永】你的角色全部 Power+1000、Soul+1。 / （Focus 觸發：此卡觸發時，可從控室選 1 張事件卡或等級 0 以下的角色回手牌）", flavor:"我終究沒能找出那個孩子喜歡的東西"}
+    ] }
+
+];
+
+let deckData = deckProfiles[0].cards;
+
+        // 產品歸屬：S108 = Vol.1, S136 = Vol.2
+        deckProfiles.forEach(profile => {
+            profile.cards.forEach(card => {
+                card.product = card.code.includes('S136') ? 'vol2' : 'vol1';
+                card.productName = card.product === 'vol2' ? '葬送的芙莉蓮 Vol.2' : '葬送的芙莉蓮 Vol.1';
+            });
+        });
+
+        let currentFilter = 'all';
+        let currentView = 'grid';
+
+        // Render card display
+        function renderDeck() {
+            const gridContainer = document.getElementById('deck-grid');
+            const tableBody = document.getElementById('deck-table-body');
+            gridContainer.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            const filteredCards = deckData.filter(card => {
+                if (currentFilter === 'all') return true;
+                if (currentFilter === 'L0') return card.level === 0 && card.type !== 'Climax';
+                if (currentFilter === 'L1') return card.level === 1;
+                if (currentFilter === 'L2') return card.level === 2;
+                if (currentFilter === 'L3') return card.level === 3;
+                if (currentFilter === 'CX') return card.type === 'Climax';
+                if (currentFilter === 'P1') return card.product === 'vol1';
+                if (currentFilter === 'P2') return card.product === 'vol2';
+                return true;
+            });
+
+            filteredCards.forEach(card => {
+                // Render Visual Grid Item with Image
+                const cardEl = document.createElement('div');
+                cardEl.className = 'bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col justify-between hover:border-blue-500/60 card-hover cursor-pointer group shadow-lg';
+                cardEl.onclick = () => openCardModal(card.id);
+
+                const colorBg = card.color === 'yellow' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' :
+                                card.color === 'blue' ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' :
+                                'bg-rose-500/20 text-rose-300 border-rose-500/30';
+
+                const svgFallback = getSvgCardFallback(card.code, card.name, card.color, card.type, card.level);
+
+                cardEl.innerHTML = `
+                    <div class="relative bg-slate-950 overflow-hidden flex items-center justify-center p-2">
+                        <img src="${card.image}" alt="${card.name}" 
+                             onerror="this.onerror=null; this.src='${card.fallbackImg}';" 
+                             class="w-full h-auto object-cover rounded-lg shadow-md group-hover:scale-105 transition duration-300 ${card.type==='Climax'?'aspect-[3.5/2.5]':'card-img-aspect'}" />
+                        
+                        <div class="absolute top-3 left-3">
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded shadow-md border ${colorBg} backdrop-blur-md">
+                                Lv.${card.level} ${card.type === 'Climax' ? 'CX' : 'C' + card.cost}
+                            </span>
+                        </div>
+
+                        <div class="absolute top-3 right-3">
+                            <span class="text-xs font-black text-slate-950 bg-amber-400 px-2 py-0.5 rounded-full shadow-md">
+                                x${card.qty}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 flex-grow flex flex-col justify-between bg-slate-900/90">
+                        <div>
+                            <h4 class="font-bold text-xs text-white group-hover:text-blue-300 transition line-clamp-1 mb-0.5">${card.name}</h4>
+                            <p class="text-[10px] text-slate-500 font-mono mb-1 flex items-center space-x-1">
+                                ${card.code}
+                                <span class="text-[9px] font-bold px-1.5 py-px rounded border ${card.product === 'vol2' ? 'bg-violet-500/20 text-violet-300 border-violet-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30'}">${card.product === 'vol2' ? 'Vol.2' : 'Vol.1'}</span>
+                            </p>
+                            <p class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${card.text}</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-[10px]">
+                            <span class="text-slate-400 font-medium truncate">${card.role}</span>
+                            ${card.memory ? '<span class="text-sky-400 font-bold ml-1 shrink-0"><i class="fa-solid fa-brain mr-0.5"></i>Mem</span>' : ''}
+                        </div>
+                    </div>
+                `;
+                gridContainer.appendChild(cardEl);
+
+                // Render Table Row
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-800/50 cursor-pointer border-b border-slate-800/60 transition';
+                row.onclick = () => openCardModal(card.id);
+                row.innerHTML = `
+                    <td class="px-4 py-2 w-16">
+                        <img src="${card.image}" onerror="this.onerror=null; this.src='${card.fallbackImg}';" class="w-10 h-14 object-cover rounded border border-slate-700" />
+                    </td>
+                    <td class="px-4 py-3 font-medium text-white flex items-center space-x-2">
+                        <div>
+                            <div class="font-bold text-sm">${card.name}</div>
+                            <div class="text-[10px] text-slate-500 font-mono">${card.code}</div>
+                        </div>
+                        ${card.memory ? '<span class="text-[10px] px-1.5 py-0.2 bg-sky-500/20 text-sky-300 rounded border border-sky-500/30">Memory</span>' : ''}
+                    </td>
+                    <td class="px-4 py-3"><span class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${card.product === 'vol2' ? 'bg-violet-500/20 text-violet-300 border-violet-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30'}">${card.product === 'vol2' ? 'Vol.2' : 'Vol.1'}</span></td>
+                    <td class="px-4 py-3 text-xs font-bold">Lv.${card.level}</td>
+                    <td class="px-4 py-3 text-xs">${card.cost}</td>
+                    <td class="px-4 py-3 text-xs"><span class="capitalize font-semibold ${card.color === 'yellow' ? 'text-amber-400' : card.color === 'blue' ? 'text-blue-400' : 'text-rose-400'}">${card.color}</span></td>
+                    <td class="px-4 py-3 font-black text-amber-300 text-base">x${card.qty}</td>
+                    <td class="px-4 py-3 text-xs text-slate-300 max-w-md">${card.text}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterCards(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            event.target.classList.remove('bg-slate-800', 'text-slate-300');
+            event.target.classList.add('bg-blue-600', 'text-white');
+            renderDeck();
+        }
+
+        function setViewMode(mode) {
+            currentView = mode;
+            if (mode === 'grid') {
+                document.getElementById('deck-grid').classList.remove('hidden');
+                document.getElementById('deck-table').classList.add('hidden');
+                document.getElementById('btn-grid').className = 'p-2 rounded-lg bg-blue-600 text-white text-xs';
+                document.getElementById('btn-table').className = 'p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs';
+            } else {
+                document.getElementById('deck-grid').classList.add('hidden');
+                document.getElementById('deck-table').classList.remove('hidden');
+                document.getElementById('btn-table').className = 'p-2 rounded-lg bg-blue-600 text-white text-xs';
+                document.getElementById('btn-grid').className = 'p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs';
+            }
+        }
+
+        function openCardModal(cardId) {
+            const card = deckData.find(c => c.id === cardId);
+            if (!card) return;
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="flex flex-col sm:flex-row gap-5 items-center sm:items-start">
+                    <img src="${card.image}" onerror="this.onerror=null; this.src='${card.fallbackImg}';" class="w-48 sm:w-56 rounded-xl border border-slate-700 shadow-2xl shrink-0" />
+                    
+                    <div class="space-y-3 flex-grow">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                Level ${card.level} | Cost ${card.cost}
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono">${card.code}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${card.product === 'vol2' ? 'bg-violet-500/20 text-violet-300 border-violet-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30'}">${card.product === 'vol2' ? 'Vol.2' : 'Vol.1'}</span>
+                        </div>
+
+                        <h3 class="text-xl font-black text-white">${card.name}</h3>
+
+                        <div class="text-[11px] text-slate-400"><i class="fa-solid fa-box-open mr-1.5 text-amber-400"></i>出自產品：${card.productName} <span class="text-slate-500">(${card.code.split('/')[1].split('-')[0]})</span></div>
+                        
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700 space-y-1 text-xs">
+                            <div class="text-slate-300 font-semibold"><i class="fa-solid fa-star mr-1 text-amber-400"></i>戰術定位:</div>
+                            <div class="text-slate-300">${card.role}</div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <p class="text-xs font-bold text-slate-300">卡牌效果詳情：</p>
+                            <p class="text-xs sm:text-sm text-slate-200 bg-slate-950 p-3.5 rounded-xl border border-slate-800 leading-relaxed font-sans">${(card.detail || card.text).split(' / ').join('<br>')}</p>
+                            ${card.flavor ? '<p class="text-[11px] text-slate-500 italic border-l-2 border-slate-700 pl-2 mt-1.5">「' + card.flavor + '」</p>' : ''}
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-800">
+                            <span>牌組投入數：<strong class="text-amber-400 text-sm">${card.qty} 張</strong></span>
+                            ${card.memory ? '<span class="text-sky-400 font-bold"><i class="fa-solid fa-brain mr-1"></i>具備 Memory 機制</span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('card-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('card-modal').classList.add('hidden');
+        }
+
+        // Mulligan Deck Simulator State
+        let sampleHand = [];
+        let selectedDiscards = new Set();
+
+        function generateFullDeckArray() {
+            let arr = [];
+            deckData.forEach(card => {
+                for (let i = 0; i < card.qty; i++) {
+                    arr.push(card);
+                }
+            });
+            return arr;
+        }
+
+        function openMulliganSim() {
+            redrawMulliganHand();
+            document.getElementById('mulligan-modal').classList.remove('hidden');
+        }
+
+        function closeMulliganModal() {
+            document.getElementById('mulligan-modal').classList.add('hidden');
+        }
+
+        function redrawMulliganHand() {
+            const fullDeck = generateFullDeckArray();
+            // Fisher-Yates Shuffle
+            for (let i = fullDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [fullDeck[i], fullDeck[j]] = [fullDeck[j], fullDeck[i]];
+            }
+            sampleHand = fullDeck.slice(0, 5);
+            selectedDiscards.clear();
+            renderSampleHandUI();
+            document.getElementById('mulligan-status').innerText = "點擊要棄置的卡牌，然後點擊「執行起手換牌」。";
+        }
+
+        function toggleDiscard(index) {
+            if (selectedDiscards.has(index)) {
+                selectedDiscards.delete(index);
+            } else {
+                selectedDiscards.add(index);
+            }
+            renderSampleHandUI();
+        }
+
+        function renderSampleHandUI() {
+            const grid = document.getElementById('sample-hand-grid');
+            grid.innerHTML = '';
+
+            sampleHand.forEach((card, idx) => {
+                const isDiscarded = selectedDiscards.has(idx);
+                const cardBox = document.createElement('div');
+                cardBox.onclick = () => toggleDiscard(idx);
+                cardBox.className = `p-2 rounded-xl border text-center cursor-pointer transition flex flex-col justify-between ${
+                    isDiscarded 
+                    ? 'bg-rose-950/40 border-rose-500/80 opacity-60 scale-95 ring-2 ring-rose-500' 
+                    : 'bg-slate-800 border-slate-700 hover:border-amber-400'
+                }`;
+
+                cardBox.innerHTML = `
+                    <div class="relative mb-2">
+                        <img src="${card.image}" onerror="this.onerror=null; this.src='${card.fallbackImg}';" class="w-full h-auto object-cover rounded-lg" />
+                        <div class="absolute top-1 left-1">
+                            <span class="text-[9px] font-bold px-1 py-0.5 rounded ${card.color === 'yellow' ? 'bg-amber-500 text-slate-950' : 'bg-blue-600 text-white'}">
+                                Lv.${card.level}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-xs font-bold text-white line-clamp-1 mb-1">${card.name}</div>
+                    <div class="text-[10px] py-1 rounded font-bold ${isDiscarded ? 'bg-rose-500/20 text-rose-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                        ${isDiscarded ? '<i class="fa-solid fa-trash mr-1"></i>棄置' : '保留'}
+                    </div>
+                `;
+                grid.appendChild(cardBox);
+            });
+        }
+
+        function executeMulliganSwap() {
+            if (selectedDiscards.size === 0) {
+                document.getElementById('mulligan-status').innerText = "完美手牌！未選擇任何棄牌。";
+                return;
+            }
+
+            const fullDeck = generateFullDeckArray();
+            selectedDiscards.forEach(idx => {
+                const randomCard = fullDeck[Math.floor(Math.random() * fullDeck.length)];
+                sampleHand[idx] = randomCard;
+            });
+
+            selectedDiscards.clear();
+            renderSampleHandUI();
+            document.getElementById('mulligan-status').innerText = "已完成起手換牌！這就是你的 Level 0 起手陣容。";
+        }
+
+
+        function activeProfile() {
+            return deckProfiles.find(function(p) { return p.cards === deckData; });
+        }
+
+        function buildDeckSwitcher() {
+            var sel = document.getElementById('deck-select');
+            sel.innerHTML = deckProfiles.map(function(p) {
+                return '<option value="' + p.id + '">' + p.name + '</option>';
+            }).join('');
+        }
+
+        function renderStats() {
+            var total = deckData.reduce(function(s, c) { return s + c.qty; }, 0);
+            var cx = deckData.filter(function(c) { return c.type === 'Climax'; }).reduce(function(s, c) { return s + c.qty; }, 0);
+            var lv = { 0: 0, 1: 0, 2: 0, 3: 0 };
+            deckData.forEach(function(c) { if (c.type !== 'Climax') lv[c.level] = (lv[c.level] || 0) + c.qty; });
+            var colors = {};
+            deckData.forEach(function(c) { colors[c.color] = (colors[c.color] || 0) + c.qty; });
+            var order = ['yellow', 'blue', 'red', 'green'];
+            var clabel = { yellow: '黃', blue: '藍', red: '紅', green: '綠' };
+            var cchip = {
+                yellow: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+                blue: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+                red: 'bg-red-500/20 text-red-300 border-red-500/30',
+                green: 'bg-green-500/20 text-green-300 border-green-500/30'
+            };
+            var prof = activeProfile();
+            document.getElementById('stat-total').innerHTML = total + ' <span class="text-xs text-slate-500 font-normal">張 (標準賽制)</span>';
+            document.getElementById('stat-cx').textContent = prof.cxLabel;
+            document.getElementById('stat-core').textContent = prof.core;
+            document.getElementById('stat-colors').innerHTML = order.filter(function(k) { return colors[k]; }).map(function(k) {
+                return '<span class="text-xs px-2 py-0.5 rounded font-bold border ' + cchip[k] + '">' + clabel[k] + ' ' + colors[k] + '</span>';
+            }).join('');
+            var nums = [lv[0] || 0, lv[1] || 0, lv[2] || 0, lv[3] || 0, cx];
+            ['lvl-n0', 'lvl-n1', 'lvl-n2', 'lvl-n3', 'lvl-n4'].forEach(function(idn, i) {
+                document.getElementById(idn).textContent = nums[i] + ' 張';
+            });
+            ['lvl-w0', 'lvl-w1', 'lvl-w2', 'lvl-w3', 'lvl-w4'].forEach(function(idw, i) {
+                document.getElementById(idw).style.width = Math.max(4, Math.round(nums[i] / total * 100)) + '%';
+            });
+            var fbtn = [['all', '全部 (' + total + ')'], ['L0', 'Level 0 (' + (lv[0] || 0) + ')'], ['L1', 'Level 1 (' + (lv[1] || 0) + ')'], ['L2', 'Level 2 (' + (lv[2] || 0) + ')'], ['L3', 'Level 3 (' + (lv[3] || 0) + ')'], ['CX', 'CX 高潮 (' + cx + ')']];
+            var v1 = deckData.filter(function(c) { return c.code.indexOf('S108') !== -1; }).reduce(function(s, c) { return s + c.qty; }, 0);
+            var v2 = deckData.filter(function(c) { return c.code.indexOf('S136') !== -1; }).reduce(function(s, c) { return s + c.qty; }, 0);
+            if (v1 > 0) fbtn.push(['P1', 'Vol.1 產品 (' + v1 + ')']);
+            if (v2 > 0) fbtn.push(['P2', 'Vol.2 產品 (' + v2 + ')']);
+            document.getElementById('filter-bar').innerHTML = fbtn.map(function(b) {
+                var q = String.fromCharCode(39);
+                return '<button onclick="filterCards(' + q + b[0] + q + ')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ' + (b[0] === currentFilter ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700') + '">' + b[1] + '</button>';
+            }).join('');
+        }
+
+        function setDeck(id) {
+            var prof = deckProfiles.find(function(x) { return x.id === id; });
+            if (!prof) return;
+            deckData = prof.cards;
+            currentFilter = 'all';
+            closeModal();
+            renderStats();
+            renderDeck();
+        }
+
+        window.onload = function() {
+            buildDeckSwitcher();
+            renderStats();
+            renderDeck();
+        };
+    </script>
+</body>
+</html>
