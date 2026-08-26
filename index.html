@@ -69,27 +69,27 @@
 
     <!-- Navigation Bar -->
     <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-sky-400 to-amber-400 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-blue-500/20">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 min-h-16 py-2 flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-gradient-to-br from-blue-500 via-sky-400 to-amber-400 flex items-center justify-center font-black text-slate-950 text-lg sm:text-xl shadow-lg shadow-blue-500/20">
                     SFN
                 </div>
-                <div>
-                    <h1 class="text-base sm:text-lg font-extrabold bg-gradient-to-r from-blue-400 via-sky-200 to-amber-300 bg-clip-text text-transparent">
+                <div class="min-w-0">
+                    <h1 class="text-sm sm:text-lg font-extrabold bg-gradient-to-r from-blue-400 via-sky-200 to-amber-300 bg-clip-text text-transparent truncate">
                         葬送的芙莉蓮 Vol.1 + Vol.2
                     </h1>
-                    <p class="text-xs text-slate-400">Weiss Schwarz 頂級競技牌組 (Standby + 門 軸)</p>
+                    <p class="hidden sm:block text-xs text-slate-400 truncate">Weiss Schwarz 頂級競技牌組 (Standby + 門 軸)</p>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-2 sm:space-x-4">
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+            <div class="flex items-center space-x-1.5 sm:space-x-4 shrink-0">
+                <span class="hidden md:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
                     <i class="fa-solid fa-crown mr-1.5 text-amber-400"></i> Meta Tier: Top 1
                 </span>
-                <select id="deck-select" onchange="setDeck(this.value)" class="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold rounded-lg cursor-pointer hover:border-blue-500/50 focus:outline-none max-w-[180px]"></select>
-                <button onclick="openMulliganSim()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs sm:text-sm font-semibold transition shadow-lg shadow-blue-600/20 flex items-center space-x-1.5">
+                <select id="deck-select" onchange="setDeck(this.value)" class="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold rounded-lg cursor-pointer hover:border-blue-500/50 focus:outline-none max-w-[110px] sm:max-w-[180px]"></select>
+                <button onclick="openMulliganSim()" class="px-2.5 sm:px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs sm:text-sm font-semibold transition shadow-lg shadow-blue-600/20 flex items-center space-x-1.5">
                     <i class="fa-solid fa-dice"></i>
-                    <span>起手抽牌模擬器</span>
+                    <span class="hidden sm:inline">起手抽牌模擬器</span>
                 </button>
             </div>
         </div>
@@ -150,38 +150,38 @@
             <h2 class="text-sm font-bold text-slate-300 mb-3 flex items-center">
                 <i class="fa-solid fa-chart-column mr-2 text-blue-400"></i> 等級 (Level) 曲線佈局
             </h2>
-            <div class="grid grid-cols-5 gap-3 text-center">
-                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
-                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 0</div>
-                    <div id="lvl-n0" class="text-lg sm:text-xl font-extrabold text-blue-400">16 張</div>
+            <div class="grid grid-cols-5 gap-1.5 sm:gap-3 text-center">
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-1.5 sm:p-2.5">
+                    <div class="text-[9px] sm:text-xs text-slate-400 font-semibold mb-1 truncate">Level 0</div>
+                    <div id="lvl-n0" class="text-sm sm:text-xl font-extrabold text-blue-400">16 張</div>
                     <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div id="lvl-w0" class="bg-blue-500 h-full" style="width: 16%"></div>
                     </div>
                 </div>
-                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
-                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 1</div>
-                    <div id="lvl-n1" class="text-lg sm:text-xl font-extrabold text-emerald-400">13 張</div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-1.5 sm:p-2.5">
+                    <div class="text-[9px] sm:text-xs text-slate-400 font-semibold mb-1 truncate">Level 1</div>
+                    <div id="lvl-n1" class="text-sm sm:text-xl font-extrabold text-emerald-400">13 張</div>
                     <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div id="lvl-w1" class="bg-emerald-500 h-full" style="width: 16%"></div>
                     </div>
                 </div>
-                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
-                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 2</div>
-                    <div id="lvl-n2" class="text-lg sm:text-xl font-extrabold text-amber-400">6 張</div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-1.5 sm:p-2.5">
+                    <div class="text-[9px] sm:text-xs text-slate-400 font-semibold mb-1 truncate">Level 2</div>
+                    <div id="lvl-n2" class="text-sm sm:text-xl font-extrabold text-amber-400">6 張</div>
                     <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div id="lvl-w2" class="bg-amber-500 h-full" style="width: 16%"></div>
                     </div>
                 </div>
-                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
-                    <div class="text-xs text-slate-400 font-semibold mb-1">Level 3</div>
-                    <div id="lvl-n3" class="text-lg sm:text-xl font-extrabold text-purple-400">7 張</div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-1.5 sm:p-2.5">
+                    <div class="text-[9px] sm:text-xs text-slate-400 font-semibold mb-1 truncate">Level 3</div>
+                    <div id="lvl-n3" class="text-sm sm:text-xl font-extrabold text-purple-400">7 張</div>
                     <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div id="lvl-w3" class="bg-purple-500 h-full" style="width: 16%"></div>
                     </div>
                 </div>
-                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-2.5">
-                    <div class="text-xs text-slate-400 font-semibold mb-1">Climax (高潮)</div>
-                    <div id="lvl-n4" class="text-lg sm:text-xl font-extrabold text-rose-400">8 張</div>
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-1.5 sm:p-2.5">
+                    <div class="text-[9px] sm:text-xs text-slate-400 font-semibold mb-1 truncate">Climax (高潮)</div>
+                    <div id="lvl-n4" class="text-sm sm:text-xl font-extrabold text-rose-400">8 張</div>
                     <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div id="lvl-w4" class="bg-rose-500 h-full" style="width: 16%"></div>
                     </div>
@@ -203,7 +203,7 @@
             </div>
 
             <!-- Cards Visual Grid View -->
-            <div id="deck-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <div id="deck-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
                 <!-- Cards dynamically populated via JavaScript with Image renders -->
             </div>
 
@@ -326,7 +326,7 @@
 
     <!-- Card Detail Modal -->
     <div id="card-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 space-y-4 relative shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-4 sm:p-6 space-y-4 relative shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -338,7 +338,7 @@
 
     <!-- Mulligan / Sample Hand Simulator Modal -->
     <div id="mulligan-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-3xl w-full p-6 space-y-5 relative shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-3xl w-full p-4 sm:p-6 space-y-5 relative shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
             <button onclick="closeMulliganModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
                 <i class="fa-solid fa-xmark"></i>
             </button>
